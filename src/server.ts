@@ -9,6 +9,7 @@ io.on("connection", (socket) => {
 
     // aqui você pode adicionar eventos de escuta ao socket individual
     socket.on("im", (message) => {
+        console.log(message)
         if(message == "Alfacusa JDA"){ // identificação da socket JDA
             // adicionando o cliente à sala "jda"
             socket.join("jda");
@@ -21,42 +22,42 @@ io.on("connection", (socket) => {
     });
 
     // evento quando o backend envia informações da coleta de daily
-    socket.on("daily-collect", (userid: string, total: number) => {
-        console.log(`Recebida informações da coleta de daily do usuário ${userid} que recebe ${total}`);
+    socket.on("daily-collect", (message) => {
+        console.log(`Recebida informações da coleta de daily do usuário ${JSON.stringify(message)}`);
         // emitindo informações para a jda
-        io.to("jda").emit("gems-collect", userid, total);
+        io.to("jda").emit("daily-collect", message);
     });
 
     // evento quando o backend envia informações da coleta de gemas
-    socket.on("gems-collect", (userid: string, total: number) => {
-        console.log(`Recebida informações da coleta de gemas do usuário ${userid} que recebe ${total}`);
+    socket.on("gems-collect", (message) => {
+        console.log(`Recebida informações da coleta de gemas do usuário ${JSON.stringify(message)}`);
         // emitindo informações para a jda
-        io.to("jda").emit("gems-collect", userid, total);
+        io.to("jda").emit("daily-collect", message);
     });
 
     // evento quando o backend envia informações para adicionar gemas a um usuário
-    socket.on("gems", (userid: string, total: number) => {
-        console.log(`Recebida informações de gemas para o usuário ${userid} que recebe ${total}`);
-        // emitindo informações para a jda
-        io.to("jda").emit("gems", userid, total);
+    socket.on("gems", (message) => {
+        console.log(`Recebida informações da coleta de gemas para um usuário ${JSON.stringify(message)}`);
+         // emitindo informações para a jda
+         io.to("jda").emit("gems", message);
     });
 
     // evento quando o backend envia informações de compra de um usuário
-    socket.on("shop", (userid: string, shop: string, item: string, price: number) => {
-        console.log(`Recebida informações de compra do usuário ${userid}, comprou ${item} no preço de ${price}`);
+    socket.on("shop", (message) => {
+        console.log(`Recebida informações de compra na lojinha ${message}`);
         // emitindo informações para a jda
-        io.to("jda").emit("shop", userid, shop, item, price);
+        io.to("jda").emit("shop", message);
     });
 
     // evento quando o backend envia informações sobre alterações de background
-    socket.on("background", (userid: string, background: string) => {
-        console.log(`Recebida informações de background do usuário ${userid}, ${background}`);
+    socket.on("background", (message) => {
+        console.log(`Recebida informações de background do usuário ${message}`);
         // emitindo informações para a jda
-        io.to("jda").emit("background", userid, background);
+        io.to("jda").emit("background", message);
     });
 
 });
 
-httpServer.listen(process.env.PORT || 3000, 
-    () => {console.log(`Rodando na porta ${process.env.PORT || 3000}`)}
+httpServer.listen(process.env.PORT || 2299, 
+    () => {console.log(`Rodando na porta ${process.env.PORT || 2299}`)}
 );
