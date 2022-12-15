@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
     socket.on("gems-collect", (message) => {
         console.log(`Recebida informações da coleta de gemas do usuário ${JSON.stringify(message)}`);
         // emitindo informações para a jda
-        io.to("jda").emit("daily-collect", message);
+        io.to("jda").emit("gems-collect", message);
     });
 
     // evento quando o backend envia informações para adicionar gemas a um usuário
@@ -54,6 +54,19 @@ io.on("connection", (socket) => {
         console.log(`Recebida informações de background do usuário ${message}`);
         // emitindo informações para a jda
         io.to("jda").emit("background", message);
+    });
+
+    // evento quando o backend envia informações de compra de premium
+    socket.on("premium", (message) => {
+        console.log(`Recebida informações de compra premium do usuário ${message}`);
+        // emitindo informações para a jda
+        io.to("jda").emit("premium", message);
+    });
+
+    // evento quando o backend envia informações de atualização de policiais/médicos
+    socket.on("profission", (message) => {
+        // emitindo informações para a jda
+        io.to("jda").emit("profission", message);
     });
 
 });
