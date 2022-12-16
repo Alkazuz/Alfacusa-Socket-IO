@@ -69,6 +69,11 @@ io.on("connection", (socket) => {
         io.to("jda").emit("profission", message);
     });
 
+    socket.on("christmas", (message) => {
+        // emitindo informações para a jda
+        io.to("jda").emit("christmas", message);
+    });
+
 });
 
 httpServer.listen(process.env.PORT || 2299, 
